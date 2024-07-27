@@ -1,0 +1,48 @@
+// pages/index.tsx
+'use client';
+// Importing required libraries and components
+import React, { useEffect } from 'react';
+import { Box } from '@mui/material';
+import { gsap } from 'gsap';
+import Navbar from './navbar/index';
+import ProfileSection from './profile/index';
+import CustomCursor from './cursor/index';
+
+const HomePage: React.FC = () => {
+  useEffect(() => {
+    // Background animation
+    const animateBackground = () => {
+      gsap.to(".background", {
+        y: "20%",
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+      });
+    };
+    animateBackground();
+  }, []);
+
+  return (
+    <Box sx={{ minHeight: '100vh', bgcolor: '#0d101e', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
+      <Box
+        className="background"
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(45deg, rgba(92, 6, 179, 0.3) 25%, transparent 25%, transparent 50%, rgba(92, 6, 179, 0.3) 50%, rgba(92, 6, 179, 0.3) 75%, transparent 75%, transparent)',
+          backgroundSize: '100px 100px',
+          zIndex: -1,
+        }}
+      ></Box>
+      <Navbar />
+      <ProfileSection />
+      <CustomCursor />
+    </Box>
+  );
+};
+
+export default HomePage;
