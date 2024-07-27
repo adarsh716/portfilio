@@ -1,5 +1,5 @@
 // components/ProfileSection.tsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Box, Typography, Button, IconButton } from '@mui/material';
 import Image from 'next/image';
 import { LinkedIn as LinkedInIcon, GitHub as GitHubIcon, Brush as BehanceIcon } from '@mui/icons-material';
@@ -7,11 +7,44 @@ import { SiReact, SiTypescript, SiHtml5, SiCss3, SiNodedotjs, SiMongodb } from '
 import { gsap } from 'gsap';
 
 const ProfileSection: React.FC = () => {
-  React.useEffect(() => {
+  const nameRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
     gsap.fromTo(".main-button", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1, stagger: 0.2 });
     gsap.fromTo(".profile-image", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 1 });
     gsap.fromTo(".title-text", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 1 });
     gsap.fromTo(".subtitle-text", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 1 });
+
+    const text = "Adarsh Lakhanpal";
+    let index = 0;
+    let isDeleting = false;
+
+    const type = () => {
+      if (nameRef.current) {
+        if (isDeleting) {
+          nameRef.current.textContent = text.slice(0, index) + '|';
+          index--;
+          if (index < 0) {
+            isDeleting = false;
+            index = 0;
+            setTimeout(type, 500); // Pause before typing again
+          } else {
+            setTimeout(type, 100);
+          }
+        } else {
+          nameRef.current.textContent = text.slice(0, index) + '|';
+          index++;
+          if (index > text.length) {
+            isDeleting = true;
+            setTimeout(type, 2000); // Pause before deleting
+          } else {
+            setTimeout(type, 100);
+          }
+        }
+      }
+    };
+
+    type();
   }, []);
 
   return (
@@ -23,23 +56,23 @@ const ProfileSection: React.FC = () => {
         justifyContent: 'space-between',
         minHeight: 'calc(100vh - 64px)',
         px: { xs: 2, md: 30 },
-        py: { xs: 2, md: 0}, 
+        py: { xs: 2, md: 0 }, 
       }}
     >
       <Box
         sx={{
           textAlign: { xs: 'center', md: 'left' },
-          mt: { xs: 2, md: -2, lg:-10 }, // Decreased margin from top
+          mt: { xs: 2, md: -2, lg: -10 },
           maxWidth: { xs: '100%', md: '50%' },
         }}
       >
-        <Typography component="div" gutterBottom sx={{ color: '#5c06b3', fontSize: '24px' }} >
+        <Typography component="div" gutterBottom sx={{ color: '#5c06b3', fontSize: '30px' }} >
           Hey! Everyone. I am 👋
         </Typography>
-        <Typography variant="h3" component="div" gutterBottom fontWeight="bold" className="title-text">
-          Adarsh Lakhanpal
+        <Typography variant="h3" component="div" gutterBottom fontWeight="bold" className="title-text" sx={{ fontSize: '57px' }} ref={nameRef}>
+          {/* Name will be typed here */}
         </Typography>
-        <Typography variant="subtitle1" component="div" gutterBottom sx={{ color: '#9c9c9c' }} className="subtitle-text">
+        <Typography component="div" gutterBottom sx={{ color: '#9c9c9c', fontSize: '20px' }} className="subtitle-text">
           Full Stack Developer
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' }, gap: 1, mb: 2 }}>
@@ -66,12 +99,32 @@ const ProfileSection: React.FC = () => {
               padding: '8px 24px', // Adjust padding for better appearance
               fontSize: '16px', // Adjust font size
               borderWidth: '2px', // Adjust border width
+              overflow: 'hidden',
+              position: 'relative',
+              transition: 'all 0.3s',
               '&:hover': {
-                borderColor: '#8d7e8f',
+                backgroundColor: '#5c06b3',
+                color: '#fff',
+                borderColor: '#fff'
+              },
+              '&:hover .button-text': {
+                animation: 'moveTextUp 0.3s forwards, moveTextDown 0.3s 0.3s forwards',
+              },
+              '& .button-text': {
+                display: 'inline-block',
+                transition: 'transform 0.3s',
+              },
+              '@keyframes moveTextUp': {
+                '0%': { transform: 'translateY(0)' },
+                '100%': { transform: 'translateY(-100%)' },
+              },
+              '@keyframes moveTextDown': {
+                '0%': { transform: 'translateY(100%)' },
+                '100%': { transform: 'translateY(0)' },
               },
             }}
           >
-            Download CV
+            <span className="button-text">Download CV</span>
           </Button>
           <Button
             variant="outlined"
@@ -85,12 +138,32 @@ const ProfileSection: React.FC = () => {
               padding: '8px 24px', // Adjust padding for better appearance
               fontSize: '16px', // Adjust font size
               borderWidth: '2px', // Adjust border width
+              overflow: 'hidden',
+              position: 'relative',
+              transition: 'all 0.3s',
               '&:hover': {
-                borderColor: '#8d7e8f',
+                backgroundColor: '#5c06b3',
+                color: '#fff',
+                borderColor: '#fff',
+              },
+              '&:hover .button-text': {
+                animation: 'moveTextUp 0.3s forwards, moveTextDown 0.3s 0.3s forwards',
+              },
+              '& .button-text': {
+                display: 'inline-block',
+                transition: 'transform 0.3s',
+              },
+              '@keyframes moveTextUp': {
+                '0%': { transform: 'translateY(0)' },
+                '100%': { transform: 'translateY(-100%)' },
+              },
+              '@keyframes moveTextDown': {
+                '0%': { transform: 'translateY(100%)' },
+                '100%': { transform: 'translateY(0)' },
               },
             }}
           >
-            Get in Touch
+            <span className="button-text">Get in Touch</span>
           </Button>
         </Box>
       </Box>
@@ -103,7 +176,9 @@ const ProfileSection: React.FC = () => {
           overflow: 'hidden',
           bgcolor: '#000000',
           mx: { xs: 'auto', md: 0 },
-          mt: { xs: 2, md: -2, lg:-10 }
+          mt: { xs: 2, md: -2, lg: -10 },
+          boxShadow: '0 0 10px #5c06b3',
+          animation: 'glow 1.5s infinite alternate',
         }}
         className="profile-image"
       >
@@ -210,6 +285,16 @@ const ProfileSection: React.FC = () => {
           <SiMongodb size={40} />
         </Box>
       </Box>
+      <style jsx global>{`
+        @keyframes glow {
+          0% {
+            box-shadow: 0 0 5px #5c06b3, 0 0 10px #5c06b3, 0 0 15px #5c06b3, 0 0 20px #5c06b3, 0 0 25px #5c06b3;
+          }
+          100% {
+            box-shadow: 0 0 25px #5c06b3, 0 0 25px #5c06b3, 0 0 30px #5c06b3, 0 0 35px #5c06b3, 0 0 40px #5c06b3;
+          }
+        }
+      `}</style>
     </Box>
   );
 };

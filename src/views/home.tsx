@@ -2,11 +2,13 @@
 'use client';
 // Importing required libraries and components
 import React, { useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box,Divider } from '@mui/material';
 import { gsap } from 'gsap';
 import Navbar from './navbar/index';
 import ProfileSection from './profile/index';
 import CustomCursor from './cursor/index';
+import HomeExperienceSection from './homeExp';
+import AboutSection from './about';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -40,7 +42,11 @@ const HomePage: React.FC = () => {
       ></Box>
       <Navbar />
       <ProfileSection />
-      <CustomCursor />
+      <Divider sx={{ my: 4, borderColor: '#5d06b366',mt:{xs : 2, md :0, lg:-3 } }} />
+      {/* <CustomCursor /> */}
+      <HomeExperienceSection/>
+      <Divider sx={{ my: 4, borderColor: '#5d06b366',mt:{xs : 2, md :0, lg:10 } }} />
+      <AboutSection/> 
     </Box>
   );
 };
