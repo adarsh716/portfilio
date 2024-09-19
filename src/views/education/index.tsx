@@ -4,9 +4,29 @@ import { Box, Typography, Container, Grid, Card, CardContent } from '@mui/materi
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+// Ensure gsap only initializes on the client-side
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
-const TimelineCard = ({ title, subtitle, duration, dateRange, isLast, isActive }) => (
+// Define the type for experience data
+interface Experience {
+  title: string;
+  subtitle: string;
+  duration: string;
+  dateRange: string;
+}
+
+interface TimelineCardProps {
+  title: string;
+  subtitle: string;
+  duration: string;
+  dateRange: string;
+  isLast: boolean;
+  isActive: boolean;
+}
+
+const TimelineCard: React.FC<TimelineCardProps> = ({ title, subtitle, duration, dateRange, isLast, isActive }) => (
   <Box
     className="timeline-card"
     sx={{
@@ -14,7 +34,7 @@ const TimelineCard = ({ title, subtitle, duration, dateRange, isLast, isActive }
       marginBottom: isLast ? 0 : 4,
       position: 'relative',
       opacity: isActive ? 1 : 0.5,
-      transition: 'opacity 0.3s'
+      transition: 'opacity 0.3s',
     }}
   >
     <Box sx={{ position: 'relative', width: '24px' }}>
@@ -28,7 +48,7 @@ const TimelineCard = ({ title, subtitle, duration, dateRange, isLast, isActive }
           flexShrink: 0,
           zIndex: 1,
           marginTop: '6px',
-          transition: 'background-color 0.3s'
+          transition: 'background-color 0.3s',
         }}
       />
       {!isLast && (
@@ -40,7 +60,7 @@ const TimelineCard = ({ title, subtitle, duration, dateRange, isLast, isActive }
             bottom: '-14px',
             width: '2px',
             backgroundColor: isActive ? '#805ad5' : '#4a5568',
-            transition: 'background-color 0.3s'
+            transition: 'background-color 0.3s',
           }}
         />
       )}
@@ -51,7 +71,7 @@ const TimelineCard = ({ title, subtitle, duration, dateRange, isLast, isActive }
         color: 'white',
         flex: 1,
         borderRadius: '8px',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
       }}
     >
       <CardContent>
@@ -72,73 +92,79 @@ const TimelineCard = ({ title, subtitle, duration, dateRange, isLast, isActive }
   </Box>
 );
 
-const Timeline = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const timelineRef = useRef(null);
+const Timeline: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const timelineRef = useRef<HTMLDivElement | null>(null);
 
-  const professionalExperiences = [
+  const professionalExperiences: Experience[] = [
     {
       title: 'Desenvolvedor Front-end na Ensinio',
-      subtitle: 'Desenvolvimento de interfaces interativas e responsivas com React, Next.js e TypeScript. Implementação de designs usando tecnologias como Next, Styled Components e padrões de arquitetura.',
+      subtitle:
+        'Desenvolvimento de interfaces interativas e responsivas com React, Next.js e TypeScript. Implementação de designs usando tecnologias como Next, Styled Components e padrões de arquitetura.',
       duration: '1 ano e 7 meses',
-      dateRange: 'Abril/2021 - Atualmente'
+      dateRange: 'Abril/2021 - Atualmente',
     },
     {
       title: 'Designer na Viralizi',
       subtitle: 'Desenvolvendo serviços para mídias digitais na Viralizi como Designer.',
       duration: '3 meses',
-      dateRange: 'Janeiro/2021 - Abril/2021'
+      dateRange: 'Janeiro/2021 - Abril/2021',
     },
     {
       title: 'Instrutor de programação na SuperGeeks',
-      subtitle: 'Curso prático de programação, com ênfase no desenvolvimento de jogos com crianças e adolescentes. Além de suporte para criação de conteúdos e mídias digitais.',
+      subtitle:
+        'Curso prático de programação, com ênfase no desenvolvimento de jogos com crianças e adolescentes. Além de suporte para criação de conteúdos e mídias digitais.',
       duration: '1 ano e 11 meses',
-      dateRange: 'Fevereiro/2019 - Janeiro/2021'
+      dateRange: 'Fevereiro/2019 - Janeiro/2021',
     },
     {
       title: 'Designer, editor e suporte em hardwares na Alorean',
-      subtitle: 'Serviços relacionados ao design, manutenção de hardwares, edições de mídias digitais e gráficas para empresas e pessoas na região de São José dos Campos e cidades próximas (região "boqueirão").',
+      subtitle:
+        'Serviços relacionados ao design, manutenção de hardwares, edições de mídias digitais e gráficas para empresas e pessoas na região de São José dos Campos e cidades próximas (região "boqueirão").',
       duration: '1 ano',
-      dateRange: 'Janeiro/2020 - Janeiro/2021'
+      dateRange: 'Janeiro/2020 - Janeiro/2021',
     },
     {
       title: 'Jovem aprendiz',
-      subtitle: 'Atuei na área como jovem aprendiz, no início de 2017 à dezembro de 2017 na empresa Saint-Gobain, atuando no departamento de design, suporte em marketing digital da empresa e TI.',
+      subtitle:
+        'Atuei na área como jovem aprendiz, no início de 2017 à dezembro de 2017 na empresa Saint-Gobain, atuando no departamento de design, suporte em marketing digital da empresa e TI.',
       duration: '1 ano e 3 meses',
-      dateRange: 'Outubro/2016 - Dezembro/2017'
-    }
+      dateRange: 'Outubro/2016 - Dezembro/2017',
+    },
   ];
 
-  const academicExperiences = [
+  const academicExperiences: Experience[] = [
     {
       title: 'Superior, Análise e Desenvolvimento de Sistemas',
       subtitle: 'Curso superior para formação de Tecnólogo em Análise e Desenvolvimento de Sistemas.',
       duration: '3 anos',
-      dateRange: 'Agosto/2019 - Agosto/2022'
+      dateRange: 'Agosto/2019 - Agosto/2022',
     },
     {
       title: 'Técnico, Redes de Computadores',
-      subtitle: 'Desenvolvimento de habilidades na aplicação, projeção e uso com React, Typescript, Java, Kotlin, Node.js e tecnologias como Next.',
+      subtitle:
+        'Desenvolvimento de habilidades na aplicação, projeção e uso com React, Typescript, Java, Kotlin, Node.js e tecnologias como Next.',
       duration: '1 ano e 6 meses',
-      dateRange: 'Fevereiro/2018 - Junho/2019'
+      dateRange: 'Fevereiro/2018 - Junho/2019',
     },
     {
       title: 'Inglês - Conversação avançada',
-      subtitle: 'No período referente ao ano letivo (semestre) meu nível de inglês atinge Avançado com o intuito de conversação avançada pelo Instituto Federal de Jacareí (IFSP).',
+      subtitle:
+        'No período referente ao ano letivo (semestre) meu nível de inglês atinge Avançado com o intuito de conversação avançada pelo Instituto Federal de Jacareí (IFSP).',
       duration: '6 meses',
-      dateRange: 'Julho/2018 - Dezembro/2018'
+      dateRange: 'Julho/2018 - Dezembro/2018',
     },
     {
       title: 'Ensino médio completo',
       subtitle: 'Ao final de 2017 me formei no ensino médio na escola América Dias Sampaio em Jacareí.',
       duration: '',
-      dateRange: 'Dezembro/2017'
-    }
+      dateRange: 'Dezembro/2017',
+    },
   ];
 
   useEffect(() => {
-    if (timelineRef.current) {
-      const cards = gsap.utils.toArray('.timeline-card');
+    if (typeof window !== 'undefined' && timelineRef.current) {
+      const cards = gsap.utils.toArray<HTMLDivElement>('.timeline-card');
 
       cards.forEach((card, index) => {
         gsap.fromTo(
@@ -152,8 +178,8 @@ const Timeline = () => {
               trigger: card,
               start: 'top center+=100',
               toggleActions: 'play none none reverse',
-              onEnter: () => setActiveIndex(index)
-            }
+              onEnter: () => setActiveIndex(index),
+            },
           }
         );
       });

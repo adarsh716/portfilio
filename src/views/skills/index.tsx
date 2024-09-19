@@ -1,7 +1,11 @@
-// components/Skills.tsx
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Box, Typography, Grid } from '@mui/material';
 import gsap from 'gsap';
+
+interface Skill {
+  name: string;
+  icon: string;
+}
 
 const skills = {
   daily: [
@@ -32,46 +36,56 @@ const skills = {
 };
 
 const Skills: React.FC = () => {
-  const dailyIconsRef = useRef([]);
-  const othersIconsRef = useRef([]);
+  const dailyIconsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const othersIconsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  const setDailyIconRef = useCallback(
+    (el: HTMLDivElement | null, index: number) => {
+      dailyIconsRef.current[index] = el;
+    },
+    []
+  );
+
+  const setOthersIconRef = useCallback(
+    (el: HTMLDivElement | null, index: number) => {
+      othersIconsRef.current[index] = el;
+    },
+    []
+  );
 
   useEffect(() => {
-    dailyIconsRef.current = dailyIconsRef.current.slice(0, skills.daily.length);
-    othersIconsRef.current = othersIconsRef.current.slice(0, skills.others.length);
-
     const timeline = gsap.timeline({ repeat: -1, yoyo: true });
 
     // Animating daily icons from left
     timeline.fromTo(
-      dailyIconsRef.current.reverse(), // Reversing the array to animate last to first
+      dailyIconsRef.current.reverse(),
       { x: '-100vw' },
       { x: '0', duration: 1, stagger: 0.1 }
     );
 
     // Animating others icons from left
     timeline.fromTo(
-      othersIconsRef.current.reverse(), // Reversing the array to animate last to first
+      othersIconsRef.current.reverse(),
       { x: '-100vw' },
       { x: '0', duration: 1, stagger: 0.1 },
-      '-=0.9' // Overlap the timelines slightly
+      '-=0.9'
     );
 
     timeline.to({}, { duration: 5 }); // Hold for 5 seconds
 
     // Animating daily icons to right
     timeline.to(
-      dailyIconsRef.current, // Not reversed to animate first to last
+      dailyIconsRef.current,
       { x: '100vw', duration: 1, stagger: 0.1 }
     );
 
     // Animating others icons to right
     timeline.to(
-      othersIconsRef.current, // Not reversed to animate first to last
+      othersIconsRef.current,
       { x: '100vw', duration: 1, stagger: 0.1 },
-      '-=0.9' // Overlap the timelines slightly
+      '-=0.9'
     );
 
-    // Prepare for the next loop
     dailyIconsRef.current.reverse();
     othersIconsRef.current.reverse();
 
@@ -81,7 +95,7 @@ const Skills: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ backgroundColor: '#0d101e', color: '#fff', padding: '2rem', textAlign: 'center',marginTop: '6rem' }}>
+    <Box sx={{ backgroundColor: '#0d101e', color: '#fff', padding: '2rem', textAlign: 'center', marginTop: '6rem' }}>
       <Typography sx={{ color: '#f8f8f8', fontWeight: 600, fontSize: '24px' }}>👨‍💻 Skills</Typography>
       <Typography variant="h4" sx={{ fontWeight: 600, marginTop: '3rem', marginBottom: '2rem', color: '#fff' }}>
         Technologies and Skills
@@ -91,8 +105,9 @@ const Skills: React.FC = () => {
       </Typography>
       <Grid container spacing={2} justifyContent="center">
         {skills.daily.map((skill, index) => (
-          <Grid item key={index} ref={(el) => (dailyIconsRef.current[index] = el)}>
+          <Grid item key={index}>
             <Box
+              ref={(el: HTMLDivElement | null) => setDailyIconRef(el, index)} // Explicitly typed
               sx={{
                 transition: 'transform 0.3s, box-shadow 0.3s',
                 '&:hover': {
@@ -111,8 +126,9 @@ const Skills: React.FC = () => {
       </Typography>
       <Grid container spacing={2} justifyContent="center">
         {skills.others.map((skill, index) => (
-          <Grid item key={index} ref={(el) => (othersIconsRef.current[index] = el)}>
+          <Grid item key={index}>
             <Box
+              ref={(el: HTMLDivElement | null) => setOthersIconRef(el, index)} // Explicitly typed
               sx={{
                 transition: 'transform 0.3s, box-shadow 0.3s',
                 '&:hover': {
