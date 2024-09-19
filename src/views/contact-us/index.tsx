@@ -19,7 +19,17 @@ const StyledForm = styled.form`
   background: #1a1f2e;
   padding: 2rem;
   border-radius: 10px;
+  animation: glow 2s alternate infinite; /* Adding the glow animation */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 5px #5c06b3, 0 0 10px #5c06b3, 0 0 15px #5c06b3, 0 0 20px #5c06b3, 0 0 25px #5c06b3;
+    }
+    100% {
+      box-shadow: 0 0 25px #5c06b3, 0 0 25px #5c06b3, 0 0 30px #5c06b3, 0 0 35px #5c06b3, 0 0 40px #5c06b3;
+    }
+  }
 `;
 
 const FormTitle = styled(motion.h1)`
@@ -102,7 +112,7 @@ const ContactForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));

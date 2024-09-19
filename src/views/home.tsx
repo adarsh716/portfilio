@@ -14,6 +14,7 @@ import Skills from './skills';
 import CircularContactLayout from './contact-us';
 import ContactForm from './contact-us';
 import Timeline from './education';
+import Footer from './footer';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -56,6 +57,7 @@ const HomePage: React.FC = () => {
       <Skills/>
       <Timeline/>
       <ContactForm/>
+      <Footer/>
     </Box>
   );
 };
