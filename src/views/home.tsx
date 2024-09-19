@@ -9,6 +9,11 @@ import ProfileSection from './profile/index';
 import CustomCursor from './cursor/index';
 import HomeExperienceSection from './homeExp';
 import AboutSection from './about';
+import ProjectPage from './projects';
+import Skills from './skills';
+import CircularContactLayout from './contact-us';
+import ContactForm from './contact-us';
+import Timeline from './education';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -47,6 +52,10 @@ const HomePage: React.FC = () => {
       <HomeExperienceSection/>
       <Divider sx={{ my: 4, borderColor: '#5d06b366',mt:{xs : 2, md :0, lg:10 } }} />
       <AboutSection/> 
+      <ProjectPage/>
+      <Skills/>
+      <Timeline/>
+      <ContactForm/>
     </Box>
   );
 };

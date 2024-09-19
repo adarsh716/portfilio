@@ -40,7 +40,6 @@ const Navbar: React.FC = () => {
       >
         <Link href="/" passHref>
           <Box
-            component="a"
             className="title-text"
             sx={{
               display: 'flex',
@@ -59,7 +58,6 @@ const Navbar: React.FC = () => {
           {menuItems.map((item) => (
             <Link key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} passHref>
               <Button
-                component="a"
                 className="nav-button"
                 sx={{
                   color: item === 'Home' ? '#5c06b3' : '#9c9c9c',
@@ -142,7 +140,7 @@ const Navbar: React.FC = () => {
             <List>
               {menuItems.map((item) => (
                 <Link key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} passHref>
-                  <ListItem button component="a" onClick={toggleDrawer(false)}>
+                  <ListItem button  onClick={toggleDrawer(false)}>
                     <ListItemText
                       primary={
                         <Box

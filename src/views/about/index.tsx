@@ -38,26 +38,36 @@ const AboutSection: React.FC = () => {
         flexDirection: { xs: 'column', md: 'row' },
       }}
     >
-      <Avatar
-        src="/images/profile/profile2.jpg" // Replace with your image path
-        alt="Profile"
-        className="about-image"
+      <Box
         sx={{
-          width: { xs: 200, md: 300 },
-          height: { xs: 200, md: 300 },
-          borderRadius: '50%',
-          mb: { xs: 4, md: 0 },
-          boxShadow: '0 0 10px #5c06b3',
-          animation: 'glow 1.5s infinite alternate',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ml: { md: 5,lg:10 }, // Added right margin to the image
         }}
-      />
+      >
+        <Avatar
+          src="/images/profile/profile1.jpg" // Replace with your image path
+          alt="Profile"
+          className="about-image"
+          sx={{
+            width: { xs: 200, md: 400 },
+            height: { xs: 200, md: 400 },
+            borderRadius: '50%',
+            mb: { xs: 4, md: 0 },
+            boxShadow: '0 0 10px #5c06b3',
+            animation: 'glow 1.5s infinite alternate',
+          }}
+        />
+      </Box>
       <Box
         sx={{
           maxWidth: { xs: '100%', md: '50%' },
-          textAlign: { xs: 'center', md: 'left' },
+          ml: { md: -5 }, 
         }}
       >
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ mb: 2 ,textAlign: { xs: 'center', md: 'left' }}}>
           <Typography
             component="div"
             className="about-text"
@@ -66,33 +76,41 @@ const AboutSection: React.FC = () => {
               px: 2,
               py: 1,
               borderRadius: '16px',
-              bgcolor: '#5c06b3',
-              color: '#fff',
+              bgcolor: 'rgba(93, 6, 179, 0.41)',
+              color: '#962dff',
               fontSize: '16px',
               fontWeight: 'bold',
+              
             }}
           >
             About Me
           </Typography>
         </Box>
-        <Typography variant="h4" component="div" fontWeight="bold" className="about-text">
-          Adarsh Lakhanpal
-        </Typography>
-        <Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
-          👋 Hi, I’m Washington Henrique Fernandes de Sousa, but you can call me Henrique. Nice to meet you!
-        </Typography>
-        <Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
-          🔐 Over 2 years of experience developing and programming interfaces with JavaScript, React JS, and Typescript.
-        </Typography>
-        <Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
-          🎓 Graduated in Systems Analysis and Development from Fatec São José dos Campos.
-        </Typography>
-        <Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
-          💡 Interested in Front-end development with React, React Native, VueJS, and UI/UX Design.
-        </Typography>
-        <Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
-          🚀 Always striving to be a little better than yesterday.
-        </Typography>
+        <Typography variant="h4" component="div" fontWeight="bold" className="about-text" sx={{mb: 2 ,textAlign: { xs: 'center', md: 'left' }}}>
+  Adarsh Lakhanpal
+</Typography>
+<Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
+  👋 Hi, I’m Adarsh Lakhanpal, but you can call me Adarsh. Nice to meet you!
+</Typography>
+<Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
+  🌐 Over 6 months of experience developing and programming interfaces with JavaScript, React JS, and Typescript. Developing websites for the last 2 years using the MERN stack (MongoDB, Express.js, React, Node.js).
+</Typography>
+<Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
+  🎓 Pursuing Engineering in Computer Science from Amritsar Group of Colleges.
+</Typography>
+<Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
+  🚀 Always striving to be a little better than yesterday.
+</Typography>
+<Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
+  📈 Passionate about building scalable web applications and exploring the latest technologies in web development.
+</Typography>
+{/* <Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
+  🔍 Keen on learning and adapting to new challenges, with a strong focus on enhancing user experience.
+</Typography> */}
+<Typography component="div" className="about-text" sx={{ mt: 2, fontSize: '16px', color: '#9c9c9c' }}>
+  🌱 Committed to continuous learning and professional growth in the field of web development.
+</Typography>
+
       </Box>
       <style jsx global>{`
         @keyframes glow {
@@ -100,7 +118,7 @@ const AboutSection: React.FC = () => {
             box-shadow: 0 0 5px #5c06b3, 0 0 10px #5c06b3, 0 0 15px #5c06b3, 0 0 20px #5c06b3, 0 0 25px #5c06b3;
           }
           100% {
-            box-shadow: 0 0 25px #5c06b3, 0 0 25px #5c06b3, 0 0 30px #5c06b3, 0 0 35px #5c06b3, 0 0 40px #5c06b3;
+            box-shadow: 0 0 25px #5c06b3, 0 0 25px #5c06b3, 0 0 30px #5c06b3, 0 0 85px #5c06b3, 0 0 100px #5c06b3;
           }
         }
       `}</style>

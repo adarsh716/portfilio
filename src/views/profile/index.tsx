@@ -69,7 +69,7 @@ const ProfileSection: React.FC = () => {
         <Typography component="div" gutterBottom sx={{ color: '#5c06b3', fontSize: '30px' }} >
           Hey! Everyone. I am 👋
         </Typography>
-        <Typography variant="h3" component="div" gutterBottom fontWeight="bold" className="title-text" sx={{ fontSize: '57px' }} ref={nameRef}>
+        <Typography variant="h3" component="div" gutterBottom fontWeight="bold" className="title-text" sx={{ fontSize:{xs:'50px', md:'55px', lg:'57px'} }} ref={nameRef}>
           {/* Name will be typed here */}
         </Typography>
         <Typography component="div" gutterBottom sx={{ color: '#9c9c9c', fontSize: '20px' }} className="subtitle-text">
@@ -97,15 +97,17 @@ const ProfileSection: React.FC = () => {
               borderRadius: '24px', // Make the button rounded
               textTransform: 'none', // Disable uppercase transformation
               padding: '8px 24px', // Adjust padding for better appearance
-              fontSize: '16px', // Adjust font size
+              fontSize: '20px', // Adjust font size
               borderWidth: '2px', // Adjust border width
               overflow: 'hidden',
               position: 'relative',
               transition: 'all 0.3s',
+              fontWeight:'bold',
               '&:hover': {
                 backgroundColor: '#5c06b3',
                 color: '#fff',
-                borderColor: '#fff'
+                borderColor: '#fff',
+                boxShadow: '0 0 5px #5c06b3, 0 0 10px #5c06b3',
               },
               '&:hover .button-text': {
                 animation: 'moveTextUp 0.3s forwards, moveTextDown 0.3s 0.3s forwards',
@@ -133,14 +135,16 @@ const ProfileSection: React.FC = () => {
               color: '#5c06b3',
               borderColor: '#5c06b3',
               mr: 2,
-              borderRadius: '24px', // Make the button rounded
-              textTransform: 'none', // Disable uppercase transformation
-              padding: '8px 24px', // Adjust padding for better appearance
-              fontSize: '16px', // Adjust font size
-              borderWidth: '2px', // Adjust border width
+              borderRadius: '24px', 
+              textTransform: 'none', 
+              padding: '8px 24px', 
+              fontSize: '20px', 
+              borderWidth: '2px', 
               overflow: 'hidden',
               position: 'relative',
               transition: 'all 0.3s',
+              fontWeight:'bold',
+              boxShadow: '0 0 5px #5c06b3, 0 0 10px #5c06b3',
               '&:hover': {
                 backgroundColor: '#5c06b3',
                 color: '#fff',
