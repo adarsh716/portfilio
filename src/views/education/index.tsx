@@ -243,7 +243,7 @@ const Timeline: React.FC = () => {
     <Box sx={{ backgroundColor: '#0d101e', minHeight: '100vh', padding: 4, pt: 10 }}>
       <Container maxWidth="lg" ref={timelineRef}>
         <Typography variant="h4" sx={{ color: 'white', textAlign: 'center', marginBottom: 4 }}>
-          Trajetória até aqui
+        Education and Experience
         </Typography>
         <Grid container spacing={4}>
           <Grid item xs={12} md={6}>

@@ -74,7 +74,7 @@ const ProjectPage: React.FC = () => {
           }
         }
       `}</style>
-      <Typography gutterBottom sx={{ fontWeight: 600, fontSize: { xs: '48px', md: '55px', lg: '57px' } }}>Works and Projects</Typography>
+      <Typography gutterBottom sx={{ fontWeight: 600, fontSize: { xs: '30px', md: '55px', lg: '57px' } }}>Works and Projects</Typography>
       <Grid container spacing={4}>
         {projects.map((project, cardIndex) => (
           <Grid item xs={12} sm={6} md={4} key={cardIndex} sx={{ mt: { xs: 5, lg: 5, md: 5 } }}>
