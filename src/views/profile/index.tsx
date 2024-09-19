@@ -62,7 +62,7 @@ const ProfileSection: React.FC = () => {
       <Box
         sx={{
           textAlign: { xs: 'center', md: 'left' },
-          mt: { xs: 2, md: -2, lg: -10 },
+          mt: { xs: -10, md: -2, lg: -10 },
           maxWidth: { xs: '100%', md: '50%' },
         }}
       >
