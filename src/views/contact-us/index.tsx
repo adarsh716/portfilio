@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { collection, addDoc } from 'firebase/firestore'; 
+import {db} from '../../firebase/firebase'
+
 
 const ContactContainer = styled.div`
   background-color: #0d101e;
@@ -19,7 +22,7 @@ const StyledForm = styled.form`
   background: #1a1f2e;
   padding: 2rem;
   border-radius: 10px;
-  animation: glow 2s alternate infinite; /* Adding the glow animation */
+  animation: glow 2s alternate infinite;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   @keyframes glow {
@@ -109,6 +112,8 @@ const ContactForm: React.FC = () => {
     subject: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -118,10 +123,24 @@ const ContactForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+
+    try {
+      await addDoc(collection(db, 'messages'), {
+        ...formData,
+        timestamp: new Date(),
+      });
+
+      setIsSuccess(true);
+      console.log('Message sent:', formData);
+      
+    } catch (error) {
+      console.error('Error sending message: ', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -178,9 +197,12 @@ const ContactForm: React.FC = () => {
           type="submit"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          disabled={isSubmitting}
         >
-          Send Message
+          {isSubmitting ? 'Sending...' : 'Send Message'}
         </SubmitButton>
+
+        {isSuccess && <p style={{ textAlign: 'center', color: '#a855f7', fontWeight: 'bold',marginTop:'10px' }}>Message sent successfully!</p>}
       </StyledForm>
     </ContactContainer>
   );

@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <AppBar position="static" elevation={0} sx={{ bgcolor: '#0d101e', py: 1, borderRadius: '16px' }}>
+    <AppBar position="fixed" elevation={0} sx={{ bgcolor: '#0d101e', py: 1, borderRadius: '16px' }}>
       <Toolbar 
         sx={{ 
           justifyContent: 'space-between', 

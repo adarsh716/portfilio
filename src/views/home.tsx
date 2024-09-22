@@ -47,7 +47,9 @@ const HomePage: React.FC = () => {
         }}
       ></Box>
       <Navbar />
-      <ProfileSection />
+      <Box sx={{ mt: '100px' }}> {/* Adjust this value based on your navbar's height */}
+  <ProfileSection />
+</Box>
       <Divider sx={{ my: 4, borderColor: '#5d06b366',mt:{xs : 2, md :0, lg:-3 } }} />
       {/* <CustomCursor /> */}
       <HomeExperienceSection/>
