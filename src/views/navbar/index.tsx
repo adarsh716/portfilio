@@ -4,8 +4,6 @@ import { AppBar, Toolbar, Box, Button, Drawer, IconButton, List, ListItem, ListI
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { gsap } from 'gsap';
-import { LinkedIn as LinkedInIcon, GitHub as GitHubIcon, Brush as BehanceIcon } from '@mui/icons-material';
-import { SiTwitter, SiPinterest, SiDribbble } from 'react-icons/si';
 
 const Navbar: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);

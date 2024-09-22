@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { Box, Typography, Button, IconButton } from '@mui/material';
 import Image from 'next/image';
 import { LinkedIn as LinkedInIcon, GitHub as GitHubIcon, Brush as BehanceIcon } from '@mui/icons-material';
-import { SiReact, SiTypescript, SiHtml5, SiCss3, SiNodedotjs, SiMongodb } from 'react-icons/si';
+import { useRouter } from 'next/navigation'; // Import useRouter from next/router
 import { gsap } from 'gsap';
 
 const ProfileSection: React.FC = () => {
   const nameRef = useRef<HTMLDivElement>(null);
+  const router = useRouter(); // Initialize useRouter
 
   useEffect(() => {
     gsap.fromTo(".main-button", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1, stagger: 0.2 });
@@ -45,6 +46,10 @@ const ProfileSection: React.FC = () => {
 
     type();
   }, []);
+
+  const handleGetInTouch = () => {
+    router.push('/contact-us'); // Navigate to contact-us page
+  };
 
   return (
     <Box
@@ -88,7 +93,11 @@ const ProfileSection: React.FC = () => {
           </IconButton>
         </Box>
         <Box sx={{ mb: 3 }}>
+          {/* Download Resume Button */}
           <Button
+            component="a"
+            href="/Adarsh_Resume.pdf" // Provide the path to your resume file in the public directory
+            download // This will trigger the file download
             variant="outlined"
             className="main-button"
             sx={{
@@ -112,9 +121,12 @@ const ProfileSection: React.FC = () => {
           >
             <span className="button-text">Download CV</span>
           </Button>
+
+          {/* Get in Touch Button */}
           <Button
             variant="outlined"
             className="main-button"
+            onClick={handleGetInTouch} // Navigate to contact-us on click
             sx={{
               color: '#5c06b3',
               borderColor: '#5c06b3',

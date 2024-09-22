@@ -1,24 +1,23 @@
 // pages/index.tsx
-'use client';
+"use client";
 // Importing required libraries and components
-import React, { useEffect } from 'react';
-import { Box,Divider } from '@mui/material';
-import { gsap } from 'gsap';
-import Navbar from './navbar/index';
-import ProfileSection from './profile/index';
-import CustomCursor from './cursor/index';
-import HomeExperienceSection from './homeExp';
-import AboutSection from './about';
-import ProjectPage from './projects';
-import Skills from './skills';
-import CircularContactLayout from './contact-us';
-import ContactForm from './contact-us';
-import Timeline from './education';
-import Footer from './footer';
+import React, { useEffect } from "react";
+import { Box, Divider } from "@mui/material";
+import { gsap } from "gsap";
+import Navbar from "./navbar/index";
+import ProfileSection from "./profile/index";
+import CustomCursor from "./cursor/index";
+import HomeExperienceSection from "./homeExp";
+import AboutSection from "./about";
+import ProjectPage from "./projects";
+import Skills from "./skills";
+import CircularContactLayout from "./contact-us";
+import ContactForm from "./contact-us";
+import Timeline from "./education";
+import Footer from "./footer";
 
 const HomePage: React.FC = () => {
   useEffect(() => {
-    // Background animation
     const animateBackground = () => {
       gsap.to(".background", {
         y: "20%",
@@ -32,34 +31,46 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ minHeight: '100dvh', bgcolor: '#0d101e', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
+    <Box
+      sx={{
+        minHeight: "100dvh",
+        bgcolor: "#0d101e",
+        color: "#ffffff",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       <Box
         className="background"
         sx={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(45deg, rgba(92, 6, 179, 0.3) 25%, transparent 25%, transparent 50%, rgba(92, 6, 179, 0.3) 50%, rgba(92, 6, 179, 0.3) 75%, transparent 75%, transparent)',
-          backgroundSize: '100px 100px',
+          width: "100%",
+          height: "100%",
+          background:
+            "linear-gradient(45deg, rgba(92, 6, 179, 0.3) 25%, transparent 25%, transparent 50%, rgba(92, 6, 179, 0.3) 50%, rgba(92, 6, 179, 0.3) 75%, transparent 75%, transparent)",
+          backgroundSize: "100px 100px",
           zIndex: -1,
         }}
       ></Box>
       <Navbar />
-      <Box sx={{ mt: '100px' }}> 
-  <ProfileSection />
-</Box>
-      <Divider sx={{ my: 4, borderColor: '#5d06b366',mt:{xs : 2, md :0, lg:-3 } }} />
-      {/* <CustomCursor /> */}
-      <HomeExperienceSection/>
-      <Divider sx={{ my: 4, borderColor: '#5d06b366',mt:{xs : 2, md :0, lg:10 } }} />
-      <AboutSection/> 
-      <ProjectPage/>
-      <Skills/>
-      <Timeline/>
-      <ContactForm/>
-      <Footer/>
+      <Box sx={{ mt: "100px" }}>
+        <ProfileSection />
+      </Box>
+      <Divider
+        sx={{ my: 4, borderColor: "#5d06b366", mt: { xs: 2, md: 0, lg: -3 } }}
+      />
+      <HomeExperienceSection />
+      <Divider
+        sx={{ my: 4, borderColor: "#5d06b366", mt: { xs: 2, md: 0, lg: 10 } }}
+      />
+      <AboutSection />
+      <ProjectPage />
+      <Skills />
+      <Timeline />
+      <ContactForm />
+      <Footer />
     </Box>
   );
 };
