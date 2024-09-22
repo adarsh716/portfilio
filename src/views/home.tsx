@@ -32,7 +32,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#0d101e', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
+    <Box sx={{ minHeight: '100dvh', bgcolor: '#0d101e', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
       <Box
         className="background"
         sx={{
