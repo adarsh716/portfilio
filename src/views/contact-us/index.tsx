@@ -14,6 +14,7 @@ const ContactContainer = styled.div`
   justify-content: center;
   color: #fff;
   padding: 2rem;
+  margin-top: '40px';
 `;
 
 const StyledForm = styled.form`

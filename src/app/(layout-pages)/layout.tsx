@@ -1,11 +1,14 @@
-'use client'
-import ContactForm from "@/views/contact-us"
-import Footer from "@/views/footer"
-import Navbar from "@/views/navbar"
-import { Box } from "@mui/material"
+import Navbar from "@/views/navbar";
+import Footer from "@/views/footer";
+import { Box } from "@mui/material";
 
-const ContactUsRoute = () => {
-    return (
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <>
     <>
       <Box
       sx={{
@@ -32,12 +35,11 @@ const ContactUsRoute = () => {
       ></Box>
       <Navbar />
       <Box sx={{ mt: "100px" }}>
-      <ContactForm />
+      <div>{children}</div>
       </Box>
       <Footer />
     </Box>
     </>
-  )
+    </>
+  );
 }
-
-export default ContactUsRoute

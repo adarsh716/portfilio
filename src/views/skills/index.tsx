@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useRef, useCallback } from 'react';
 import { Box, Typography, Grid } from '@mui/material';
 import gsap from 'gsap';
@@ -95,7 +97,7 @@ const Skills: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ backgroundColor: '#0d101e', color: '#fff', padding: '2rem', textAlign: 'center', marginTop: '6rem' }}>
+    <Box sx={{ backgroundColor: '#0d101e', color: '#fff', padding: '2rem', textAlign: 'center', marginTop: '6rem',marginBottom: '6rem' }}>
       <Typography sx={{ color: '#f8f8f8', fontWeight: 600, fontSize: '24px' }}>👨‍💻 Skills</Typography>
       <Typography variant="h4" sx={{ fontWeight: 600, marginTop: '3rem', marginBottom: '2rem', color: '#fff' }}>
         Technologies and Skills

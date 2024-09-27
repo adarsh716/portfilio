@@ -1,28 +1,26 @@
+'use client'
 // components/Navbar.tsx
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Box, Button, Drawer, IconButton, List, ListItem, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
-import { gsap } from 'gsap';
+import { useRouter } from 'next/navigation';
 
 const Navbar: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedButton, setSelectedButton] = useState<string>('home'); 
+  const router = useRouter();
 
-  React.useEffect(() => {
-    gsap.fromTo(
-      ".nav-button", 
-      { opacity: 0, y: -20 }, 
-      { opacity: 1, y: 0, duration: 1, stagger: 0.1 }
-    );
-  }, []);
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
   };
 
-  const menuItems = [
-    'Home', 'About Me', 'Experience', 'Skills', 'Projects', 'Recommendations', 'Contact Us'
-  ];
+  const navigateTo = (path: string, button: string) => {
+    setSelectedButton(button); 
+    router.push(path); 
+    setDrawerOpen(false); 
+  };
 
   return (
     <AppBar position="fixed" elevation={0} sx={{ bgcolor: '#0d101e', py: 1, borderRadius: '16px' }}>
@@ -33,7 +31,7 @@ const Navbar: React.FC = () => {
           borderRadius: '16px', 
           bgcolor: 'rgba(10, 10, 29, 0.784)', 
           m: 3, 
-          boxShadow: '0 0 10px #5c06b3',  // Static box shadow
+          boxShadow: '0 0 10px #5c06b3',  
         }}
       >
         <Link href="/" passHref>
@@ -53,44 +51,119 @@ const Navbar: React.FC = () => {
         </Link>
 
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3 }}>
-          {menuItems.map((item) => (
-            <Link key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} passHref>
-              <Button
-                className="nav-button"
-                sx={{
-                  color: item === 'Home' ? '#5c06b3' : '#9c9c9c',
-                  fontSize: '16px',
-                  fontWeight: item === 'Home' ? 'bold' : 'normal',
-                  textTransform: 'none',
-                  overflow: 'hidden',
-                  position: 'relative',
-                  transition: 'all 0.3s',
-                  '&:hover': {
-                    backgroundColor: '#5c06b3',
-                    color: '#fff',
-                    borderRadius: '12px'
-                  },
-                  '&:hover .button-text': {
-                    animation: 'moveTextUp 0.3s forwards, moveTextDown 0.3s 0.3s forwards',
-                  },
-                  '& .button-text': {
-                    display: 'inline-block',
-                    transition: 'transform 0.3s',
-                  },
-                  '@keyframes moveTextUp': {
-                    '0%': { transform: 'translateY(0)' },
-                    '100%': { transform: 'translateY(-100%)' },
-                  },
-                  '@keyframes moveTextDown': {
-                    '0%': { transform: 'translateY(100%)' },
-                    '100%': { transform: 'translateY(0)' },
-                  },
-                }}
-              >
-                <span className="button-text">{item}</span>
-              </Button>
-            </Link>
-          ))}
+          <Button
+            className="nav-button"
+            sx={{
+              color: selectedButton === 'home' ? '#5c06b3' : '#9c9c9c',
+              fontSize: '16px',
+              fontWeight: selectedButton === 'home' ? 'bold' : 'normal',
+              textTransform: 'none',
+              transition: 'all 0.3s',
+              '&:hover': {
+                backgroundColor: '#5c06b3',
+                color: '#fff',
+                borderRadius: '12px',
+              },
+            }}
+            onClick={() => navigateTo('/home', 'home')}
+          >
+            Home
+          </Button>
+
+          <Button
+            className="nav-button"
+            sx={{
+              color: selectedButton === 'about-me' ? '#5c06b3' : '#9c9c9c',
+              fontSize: '16px',
+              fontWeight: selectedButton === 'about-me' ? 'bold' : 'normal',
+              textTransform: 'none',
+              transition: 'all 0.3s',
+              '&:hover': {
+                backgroundColor: '#5c06b3',
+                color: '#fff',
+                borderRadius: '12px',
+              },
+            }}
+            onClick={() => navigateTo('/about-me', 'about-me')}
+          >
+            About Me
+          </Button>
+
+          <Button
+            className="nav-button"
+            sx={{
+              color: selectedButton === 'experience' ? '#5c06b3' : '#9c9c9c',
+              fontSize: '16px',
+              fontWeight: selectedButton === 'experience' ? 'bold' : 'normal',
+              textTransform: 'none',
+              transition: 'all 0.3s',
+              '&:hover': {
+                backgroundColor: '#5c06b3',
+                color: '#fff',
+                borderRadius: '12px',
+              },
+            }}
+            onClick={() => navigateTo('/experience', 'experience')}
+          >
+            Experience
+          </Button>
+
+          <Button
+            className="nav-button"
+            sx={{
+              color: selectedButton === 'skills' ? '#5c06b3' : '#9c9c9c',
+              fontSize: '16px',
+              fontWeight: selectedButton === 'skills' ? 'bold' : 'normal',
+              textTransform: 'none',
+              transition: 'all 0.3s',
+              '&:hover': {
+                backgroundColor: '#5c06b3',
+                color: '#fff',
+                borderRadius: '12px',
+              },
+            }}
+            onClick={() => navigateTo('/skills', 'skills')}
+          >
+            Skills
+          </Button>
+
+          <Button
+            className="nav-button"
+            sx={{
+              color: selectedButton === 'projects' ? '#5c06b3' : '#9c9c9c',
+              fontSize: '16px',
+              fontWeight: selectedButton === 'projects' ? 'bold' : 'normal',
+              textTransform: 'none',
+              transition: 'all 0.3s',
+              '&:hover': {
+                backgroundColor: '#5c06b3',
+                color: '#fff',
+                borderRadius: '12px',
+              },
+            }}
+            onClick={() => navigateTo('/projects', 'projects')}
+          >
+            Projects
+          </Button>
+
+          <Button
+            className="nav-button"
+            sx={{
+              color: selectedButton === 'contact-us' ? '#5c06b3' : '#9c9c9c',
+              fontSize: '16px',
+              fontWeight: selectedButton === 'contact-us' ? 'bold' : 'normal',
+              textTransform: 'none',
+              transition: 'all 0.3s',
+              '&:hover': {
+                backgroundColor: '#5c06b3',
+                color: '#fff',
+                borderRadius: '12px',
+              },
+            }}
+            onClick={() => navigateTo('/contact-us', 'contact-us')}
+          >
+            Contact Us
+          </Button>
         </Box>
 
         <IconButton
@@ -112,7 +185,7 @@ const Navbar: React.FC = () => {
               bgcolor: 'rgba(10, 10, 29, 0.95)',
               color: '#fff',
               width: '250px',
-              backdropFilter: 'blur(10px)',  // Translucent background
+              backdropFilter: 'blur(10px)',  
             }
           }}
         >
@@ -136,45 +209,42 @@ const Navbar: React.FC = () => {
               </Box>
             </Box>
             <List>
-              {menuItems.map((item) => (
-                <Link key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} passHref>
-                  <ListItem button  onClick={toggleDrawer(false)}>
-                    <ListItemText
-                      primary={
-                        <Box
-                          component="span"
-                          className="nav-button"
-                          sx={{
-                            overflow: 'hidden',
-                            position: 'relative',
-                            transition: 'all 0.3s',
-                            '&:hover': {
-                              color: '#fff',
-                            },
-                            '&:hover .button-text': {
-                              animation: 'moveTextUp 0.3s forwards, moveTextDown 0.3s 0.3s forwards',
-                            },
-                            '& .button-text': {
-                              display: 'inline-block',
-                              transition: 'transform 0.3s',
-                            },
-                            '@keyframes moveTextUp': {
-                              '0%': { transform: 'translateY(0)' },
-                              '100%': { transform: 'translateY(-100%)' },
-                            },
-                            '@keyframes moveTextDown': {
-                              '0%': { transform: 'translateY(100%)' },
-                              '100%': { transform: 'translateY(0)' },
-                            },
-                          }}
-                        >
-                          <span className="button-text">{item}</span>
-                        </Box>
-                      }
-                    />
-                  </ListItem>
-                </Link>
-              ))}
+              <ListItem button onClick={() => navigateTo('/home', 'home')}>
+                <ListItemText
+                  primary="Home"
+                  sx={{ color: selectedButton === 'home' ? '#5c06b3' : '#fff' }}
+                />
+              </ListItem>
+              <ListItem button onClick={() => navigateTo('/about-me', 'about-me')}>
+                <ListItemText
+                  primary="About Me"
+                  sx={{ color: selectedButton === 'about-me' ? '#5c06b3' : '#fff' }}
+                />
+              </ListItem>
+              <ListItem button onClick={() => navigateTo('/experience', 'experience')}>
+                <ListItemText
+                  primary="Experience"
+                  sx={{ color: selectedButton === 'experience' ? '#5c06b3' : '#fff' }}
+                />
+              </ListItem>
+              <ListItem button onClick={() => navigateTo('/skills', 'skills')}>
+                <ListItemText
+                  primary="Skills"
+                  sx={{ color: selectedButton === 'skills' ? '#5c06b3' : '#fff' }}
+                />
+              </ListItem>
+              <ListItem button onClick={() => navigateTo('/projects', 'projects')}>
+                <ListItemText
+                  primary="Projects"
+                  sx={{ color: selectedButton === 'projects' ? '#5c06b3' : '#fff' }}
+                />
+              </ListItem>
+              <ListItem button onClick={() => navigateTo('/contact-us', 'contact-us')}>
+                <ListItemText
+                  primary="Contact Us"
+                  sx={{ color: selectedButton === 'contact-us' ? '#5c06b3' : '#fff' }}
+                />
+              </ListItem>
             </List>
           </Box>
         </Drawer>

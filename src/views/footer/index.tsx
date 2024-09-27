@@ -17,6 +17,7 @@ const Footer: React.FC = () => {
         alignItems: 'center',
         backgroundColor: '#1a1f2e', // Adjust the background color to match the screenshot
         padding: '2rem',
+        mt:5,
         color: '#9CA3AF', // Lighter gray for text, similar to the image
       }}
     >
