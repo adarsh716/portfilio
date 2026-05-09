@@ -250,10 +250,10 @@ export const HeroRobotPanel = () => {
         {/* ── Legs ── */}
         <div className="w-8 h-2" style={{ background: "rgba(251,191,36,0.08)" }} />
         <div className="flex gap-5">
-          {([
+          {[
             { rotate: [0, 3, 0, -3, 0], delay: 0 },
             { rotate: [0, -3, 0, 3, 0], delay: 0.6 },
-          ] as const).map(({ rotate, delay }, i) => (
+          ].map(({ rotate, delay }, i) => (
             <motion.div
               key={i}
               className="w-10 h-16 glassmorphism rounded-b-2xl"
