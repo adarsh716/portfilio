@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"c:\\\\AdarshPersonal\\\\premium-portfolio\\\\public\")",
+      "Bash(find \"/c/Users/alakh/Downloads\" -name \"*.png\" -newer \"/c/Users/alakh/Downloads/ChatGPT Image Apr 23, 2026, 02_13_37 PM.png\" 2>/dev/null | head -20)",
+      "Read(//c/Users/alakh/Downloads/**)",
+      "Bash(cp \"/c/Users/alakh/Downloads/ChatGPT Image May 8, 2026, 11_17_17 PM.png\" \"/c/AdarshPersonal/premium-portfolio/public/profile.jpg\")"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\alakh\\Downloads"
+    ]
+  }
+}
