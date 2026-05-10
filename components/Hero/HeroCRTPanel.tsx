@@ -32,7 +32,7 @@ const Ch01 = () => (
     ))}
     <div className="flex gap-6 mt-4 text-xs text-green-400/60">
       <span>2+ <span className="text-slate-600">yrs</span></span>
-      <span>4+ <span className="text-slate-600">projects</span></span>
+      <span>10+ <span className="text-slate-600">projects</span></span>
       <span>3+ <span className="text-slate-600">certs</span></span>
     </div>
     <div className="flex items-center gap-2 mt-4 pt-4" style={{ borderTop: "1px solid rgba(74,222,128,0.08)" }}>

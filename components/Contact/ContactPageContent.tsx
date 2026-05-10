@@ -30,7 +30,7 @@ const contactDetails = [
     icon: Linkedin,
     label: "LinkedIn",
     value: "adarsh-lakhanpal-649aba23b",
-    href: "https://linkedin.com/in/adarsh-lakhanpal-649aba23b",
+    href: "https://www.linkedin.com/in/adarsh-lakhanpal-649aba23b/",
     color: "#34d399",
   },
 ];

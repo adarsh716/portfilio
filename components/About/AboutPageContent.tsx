@@ -79,8 +79,8 @@ export const AboutPageContent = () => {
                 { icon: MapPin, text: "Amritsar, India", href: null },
                 {
                   icon: ExternalLink,
-                  text: "linkedin.com/in/adarsh-lakhanpal-649aba23b",
-                  href: "https://linkedin.com/in/adarsh-lakhanpal-649aba23b",
+                  text: "linkedin.com/in/adarsh-lakhanpal-649aba23b/",
+                  href: "https://www.linkedin.com/in/adarsh-lakhanpal-649aba23b/",
                 },
               ].map(({ icon: Icon, text, href }) => (
                 <div key={text} className="flex items-center gap-4 group/row">

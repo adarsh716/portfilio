@@ -45,7 +45,7 @@ const QA: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["contact", "email", "reach", "phone", "linkedin", "hire", "connect", "available"],
     answer:
-      "Let's connect! 📬\n\n📧  alakhanpal2003@gmail.com\n📱  8437516789\n🔗  linkedin.com/in/adarsh-lakhanpal-649aba23b\n📍  Amritsar, India\n\nI'm open to full-time roles, freelance projects & collaborations. Response within 24 hours! ✅",
+      "Let's connect! 📬\n\n📧  alakhanpal2003@gmail.com\n📱  8437516789\n🔗  linkedin.com/in/adarsh-lakhanpal-649aba23b/\n📍  Amritsar, India\n\nI'm open to full-time roles, freelance projects & collaborations. Response within 24 hours! ✅",
   },
   {
     keywords: ["certif", "certificate", "award", "nptel", "udemy", "forage"],

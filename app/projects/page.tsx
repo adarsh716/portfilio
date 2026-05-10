@@ -4,7 +4,7 @@ import { Projects } from "@/components/Projects/Projects";
 
 export const metadata: Metadata = {
   title: "Projects | Adarsh Lakhanpal",
-  description: "Full-stack projects including ImmiFlow, Patty Kulcha, Space Cart, and The Wild Oasis.",
+  description: "Full-stack projects including KNOWLEDGE AI, ImmiFlow, Patty Kulcha, Space Cart, and The Wild Oasis.",
 };
 
 export default function ProjectsPage() {

@@ -55,9 +55,8 @@ const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 const STATS = [
   { val: "2+",   label: "Yrs Exp" },
-  { val: "4+",   label: "Projects" },
+  { val: "10+",   label: "Projects" },
   { val: "3+",   label: "Certs" },
-  { val: "847",  label: "Commits" },
 ];
 
 export const HeroActivityPanel = () => {

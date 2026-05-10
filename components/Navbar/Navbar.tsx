@@ -33,7 +33,6 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Highlight active section while scrolling (home only) */
   useEffect(() => {
     if (!isHome) {
       const match = navLinks.find((l) => l.href === pathname);
@@ -49,7 +48,7 @@ export const Navbar = () => {
           }
         }
       },
-      { threshold: 0.35 }
+      { rootMargin: "-40% 0px -60% 0px" }
     );
     navLinks.forEach(({ anchor }) => {
       const el = document.getElementById(anchor);
@@ -58,7 +57,6 @@ export const Navbar = () => {
     return () => observer.disconnect();
   }, [isHome, pathname]);
 
-  /* Smooth-scroll to section without polluting the URL */
   const scrollTo = (anchor: string) => {
     const el = document.getElementById(anchor);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -74,25 +72,37 @@ export const Navbar = () => {
     className?: string;
   }) => {
     const isActive = active === link.name;
+    const idx = navLinks.findIndex((l) => l.name === link.name) + 1;
 
     return (
       <Link
         href={link.href}
-        onClick={() => {
+        onClick={(e) => {
+          if (isHome && link.anchor) {
+            e.preventDefault();
+            scrollTo(link.anchor);
+          }
           setActive(link.name);
           onClick?.();
         }}
-        className={`relative group ${className ?? ""}`}
+        className={`relative px-3 py-2 flex items-center gap-1.5 group transition-all duration-300 ${className ?? ""}`}
       >
         {isActive && (
           <motion.div
-            layoutId="nav-pill"
-            className="absolute inset-0 rounded-full bg-primary/10 border border-primary/25"
-            transition={{ type: "spring", stiffness: 500, damping: 35 }}
+            layoutId="nav-highlight"
+            className="absolute inset-0 bg-primary/[0.08] rounded-full border border-primary/25 shadow-[0_0_20px_rgba(251,191,36,0.08),inset_0_1px_0_rgba(251,191,36,0.1)]"
+            transition={{ type: "spring", stiffness: 380, damping: 30 }}
           />
         )}
         <span
-          className={`relative text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${
+          className={`relative text-[8px] font-black font-mono transition-all duration-300 ${
+            isActive ? "text-primary/50" : "text-white/[0.08] group-hover:text-primary/30"
+          }`}
+        >
+          {String(idx).padStart(2, "0")}
+        </span>
+        <span
+          className={`relative text-[9px] font-black uppercase tracking-[0.3em] transition-all duration-300 ${
             isActive ? "text-primary" : "text-slate-500 group-hover:text-white"
           }`}
         >
@@ -106,74 +116,125 @@ export const Navbar = () => {
     <>
       {/* Scroll progress bar */}
       <motion.div
-        className="fixed top-0 left-0 h-[2px] bg-primary z-[200] scroll-progress shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+        className="fixed top-0 left-0 h-[1.5px] bg-gradient-to-r from-primary/20 via-primary to-primary/20 z-[200] shadow-[0_0_15px_rgba(251,191,36,0.4)]"
         style={{ width: progressWidth }}
       />
 
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] pointer-events-auto w-full max-w-fit">
-        <motion.div
-          initial={{ y: -24, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className={`relative px-6 py-3 rounded-full flex items-center gap-6 transition-all duration-500 ${
-            scrolled
-              ? "glassmorphism shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(251,191,36,0.15)]"
-              : "bg-transparent border border-transparent"
-          }`}
-        >
-          {/* Logo */}
-          {isHome ? (
-            <button type="button" onClick={() => scrollTo("hero")} className="text-[9px] font-mono text-primary font-black tracking-[0.35em] hidden md:block hover:opacity-70 transition-opacity">
-              A.L
-            </button>
-          ) : (
-            <Link href="/" className="text-[9px] font-mono text-primary font-black tracking-[0.35em] hidden md:block hover:opacity-70 transition-opacity">
-              A.L
-            </Link>
-          )}
+      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 flex items-center ${
+        scrolled ? "h-20" : "h-24"
+      }`}>
+        {/* Full-width glass background */}
+        <div className={`absolute inset-0 transition-all duration-500 ${
+          scrolled 
+            ? "bg-black/60 backdrop-blur-2xl border-b border-white/10" 
+            : "bg-black/20 backdrop-blur-md"
+        }`} />
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <NavItem key={link.name} link={link} className="px-4 py-2 rounded-full" />
-            ))}
-          </div>
-
-          <div className="h-4 w-px bg-white/10 hidden md:block" />
-
-          <div className="hidden md:flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-green-400 rounded-full shadow-[0_0_6px_rgba(74,222,128,0.8)]" />
-            <span className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">Open to work</span>
-          </div>
-
-          <button
-            type="button"
-            className="md:hidden p-2 text-white"
-            onClick={() => setIsOpen(!isOpen)}
+        <div className="container mx-auto relative z-10 flex justify-center items-center h-full pt-4 pointer-events-none">
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className={`
+              relative flex items-center gap-1 md:gap-2 px-4 md:px-6 py-3 rounded-full pointer-events-auto transition-all duration-500
+              ${scrolled
+                ? "bg-white/[0.03] border-primary/[0.15] shadow-[0_0_40px_rgba(251,191,36,0.04)]"
+                : "glassmorphism shadow-[0_8px_32px_rgba(0,0,0,0.3)] border-white/[0.03]"
+              }
+            `}
           >
-            {isOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </motion.div>
+            {/* Logo */}
+            <div className="flex items-center mr-2">
+              {isHome ? (
+                <button
+                  onClick={() => scrollTo("hero")}
+                  className="flex items-center gap-1.5 group"
+                >
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(251,191,36,0.8)] animate-pulse" />
+                  <span className="text-sm font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-primary to-primary group-hover:opacity-80 transition-opacity">
+                    A.L.
+                  </span>
+                </button>
+              ) : (
+                <Link href="/" className="flex items-center gap-1.5 group">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(251,191,36,0.8)] animate-pulse" />
+                  <span className="text-sm font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-primary to-primary group-hover:opacity-80 transition-opacity">
+                    A.L.
+                  </span>
+                </Link>
+              )}
+            </div>
 
-        {/* Mobile menu */}
+            <div className="w-px h-5 bg-white/[0.06] hidden md:block mx-1" />
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-0.5">
+              {navLinks.map((link) => (
+                <NavItem key={link.name} link={link} />
+              ))}
+            </div>
+
+            <div className="w-px h-5 bg-white/[0.06] hidden md:block mx-1" />
+
+            {/* Availability Badge */}
+            <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.05] hover:border-primary/20 transition-all cursor-default group">
+              <div className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-40" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.7)]" />
+              </div>
+              <span className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-white transition-colors">
+                Open to work
+              </span>
+            </div>
+
+            {/* Mobile toggle */}
+            <button
+              type="button"
+              className="md:hidden p-1.5 text-slate-400 hover:text-white transition-colors ml-1"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.97 }}
-              transition={{ duration: 0.2 }}
-              className="absolute top-16 left-1/2 -translate-x-1/2 w-56 glassmorphism rounded-3xl p-4 flex flex-col gap-1 border-white/10"
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="absolute top-20 left-4 right-4 p-5 glassmorphism rounded-[2rem] border border-white/10 md:hidden flex flex-col gap-1 z-[110] shadow-2xl"
             >
-              {navLinks.map((link) => (
-                <NavItem
+              <div className="flex items-center justify-between mb-3 pb-3 border-b border-white/[0.05]">
+                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">Navigation</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
+              </div>
+              {navLinks.map((link, i) => (
+                <Link
                   key={link.name}
-                  link={link}
-                  onClick={() => setIsOpen(false)}
-                  className={`px-4 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-center transition-all ${
-                    active === link.name ? "bg-primary/15 text-primary" : "text-slate-400 hover:text-white hover:bg-white/5"
+                  href={link.href}
+                  onClick={() => {
+                    if (isHome && link.anchor) scrollTo(link.anchor);
+                    setActive(link.name);
+                    setIsOpen(false);
+                  }}
+                  className={`px-4 py-3 rounded-xl flex items-center gap-3 transition-all ${
+                    active === link.name
+                      ? "bg-primary/[0.08] text-primary border border-primary/20 shadow-[0_0_16px_rgba(251,191,36,0.06)]"
+                      : "text-slate-400 hover:text-white hover:bg-white/[0.03]"
                   }`}
-                />
+                >
+                  <span className="text-[7px] font-black font-mono text-primary/40 w-4">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em]">{link.name}</span>
+                  {active === link.name && (
+                    <div className="ml-auto w-1 h-1 rounded-full bg-primary" />
+                  )}
+                </Link>
               ))}
             </motion.div>
           )}

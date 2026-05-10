@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar/Navbar";
 import { Projects } from "@/components/Projects/Projects";
 import { Education } from "@/components/Education/Education";
 import { SkillsSection } from "@/components/Skills/SkillsSection";
-import { SocialDock } from "@/components/Socials/SocialDock";
+import { ScrollTrackerSidebar } from "@/components/Navigation/ScrollTrackerSidebar";
 import { ExperienceSection } from "@/components/ExperienceSection/ExperienceSection";
 import { CustomCursor } from "@/components/Cursor/CustomCursor";
 import { motion } from "framer-motion";
@@ -45,7 +45,7 @@ export default function Home() {
     <main className="relative min-h-screen selection:bg-primary/20">
       <CustomCursor />
       <Navbar />
-      <SocialDock />
+      <ScrollTrackerSidebar />
       <Scene />
 
       <div className="relative z-10 pb-20">
@@ -188,7 +188,7 @@ export default function Home() {
                 <div className="grid grid-cols-3 gap-4">
                   {[
                     { val: "2+", label: "Years", sub: "of engineering" },
-                    { val: "4+", label: "Projects", sub: "shipped" },
+                    { val: "10+", label: "Projects", sub: "shipped" },
                     { val: "3+", label: "Certs", sub: "earned" },
                   ].map((stat, i) => (
                     <motion.div
@@ -249,7 +249,7 @@ export default function Home() {
         <SectionDivider />
 
         {/* Projects */}
-        <Projects />
+        <Projects isHomePage={true} />
 
         <SectionDivider />
 

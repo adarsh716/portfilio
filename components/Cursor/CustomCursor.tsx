@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 
 export const CustomCursor = () => {
-  const [isHovering, setIsHovering] = useState(false);
+  const [hoverType, setHoverType] = useState<"none" | "link" | "text" | "card">("none");
+  const [cursorText, setCursorText] = useState("");
   const [isVisible, setIsVisible]   = useState(false);
   const [isMobile, setIsMobile]     = useState(true);
   const [isClicking, setIsClicking] = useState(false);
@@ -16,13 +17,9 @@ export const CustomCursor = () => {
   const glowX = useSpring(mouseX, { damping: 30, stiffness: 90, mass: 0.9 });
   const glowY = useSpring(mouseY, { damping: 30, stiffness: 90, mass: 0.9 });
 
-  /* Inner halo — medium lag */
-  const haloX = useSpring(mouseX, { damping: 22, stiffness: 260, mass: 0.3 });
-  const haloY = useSpring(mouseY, { damping: 22, stiffness: 260, mass: 0.3 });
-
-  /* Center dot — near-instant */
-  const dotX = useSpring(mouseX, { damping: 18, stiffness: 1400, mass: 0.04 });
-  const dotY = useSpring(mouseY, { damping: 18, stiffness: 1400, mass: 0.04 });
+  /* Inner elements — tighter response */
+  const cursorX = useSpring(mouseX, { damping: 20, stiffness: 400, mass: 0.2 });
+  const cursorY = useSpring(mouseY, { damping: 20, stiffness: 400, mass: 0.2 });
 
   useEffect(() => {
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
@@ -36,46 +33,46 @@ export const CustomCursor = () => {
       mouseY.set(e.clientY);
       setIsVisible(true);
     };
+
     const onDown = () => setIsClicking(true);
     const onUp   = () => setIsClicking(false);
-    const onEnterHover = () => setIsHovering(true);
-    const onLeaveHover = () => setIsHovering(false);
+
+    const handleHover = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const hoverEl = target.closest("a, button, [data-cursor], input, textarea");
+      
+      if (hoverEl) {
+        const type = hoverEl.getAttribute("data-cursor") as any || (hoverEl.tagName === "A" || hoverEl.tagName === "BUTTON" ? "link" : "text");
+        setHoverType(type);
+        setCursorText(hoverEl.getAttribute("data-cursor-text") || "");
+      } else {
+        setHoverType("none");
+        setCursorText("");
+      }
+    };
+
     const onWindowLeave = () => setIsVisible(false);
     const onWindowEnter = () => setIsVisible(true);
 
     window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseover", handleHover);
     window.addEventListener("mousedown", onDown);
     window.addEventListener("mouseup", onUp);
     window.addEventListener("mouseleave", onWindowLeave);
     window.addEventListener("mouseenter", onWindowEnter);
 
-    const els = document.querySelectorAll("a, button, [data-hover], input, textarea, select");
-    els.forEach((el) => {
-      (el as HTMLElement).style.cursor = "none";
-      el.addEventListener("mouseenter", onEnterHover);
-      el.addEventListener("mouseleave", onLeaveHover);
-    });
-
     return () => {
       document.body.style.cursor = "";
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseover", handleHover);
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("mouseup", onUp);
       window.removeEventListener("mouseleave", onWindowLeave);
       window.removeEventListener("mouseenter", onWindowEnter);
-      els.forEach((el) => {
-        (el as HTMLElement).style.cursor = "";
-        el.removeEventListener("mouseenter", onEnterHover);
-        el.removeEventListener("mouseleave", onLeaveHover);
-      });
     };
   }, []);
 
   if (isMobile || !isVisible) return null;
-
-  const glowSize = isClicking ? 160 : isHovering ? 440 : 280;
-  const haloSize = isClicking ? 40  : isHovering ? 60  : 44;
-  const dotSize  = isClicking ? 3   : isHovering ? 5   : 4;
 
   return (
     <>
@@ -85,48 +82,82 @@ export const CustomCursor = () => {
         style={{ x: glowX, y: glowY, translateX: "-50%", translateY: "-50%" }}
       >
         <motion.div
-          animate={{ width: glowSize, height: glowSize }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
-          className="rounded-full"
-          style={{
-            background: isClicking
-              ? "radial-gradient(circle, rgba(251,191,36,0.18) 0%, rgba(251,191,36,0.05) 45%, transparent 70%)"
-              : isHovering
-              ? "radial-gradient(circle, rgba(251,191,36,0.13) 0%, rgba(251,191,36,0.04) 50%, transparent 70%)"
-              : "radial-gradient(circle, rgba(251,191,36,0.07) 0%, rgba(251,191,36,0.02) 50%, transparent 70%)",
+          animate={{ 
+            width: hoverType === "card" ? 400 : 280, 
+            height: hoverType === "card" ? 400 : 280,
+            opacity: hoverType !== "none" ? 0.15 : 0.08
           }}
+          className="rounded-full bg-primary/40 blur-[80px]"
         />
       </motion.div>
 
-      {/* ── Inner halo — no border, just a tighter warm glow ── */}
+      {/* ── Innovative Cursor Elements ── */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9996] will-change-transform"
-        style={{ x: haloX, y: haloY, translateX: "-50%", translateY: "-50%" }}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] flex items-center justify-center"
+        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
       >
-        <motion.div
-          animate={{ width: haloSize, height: haloSize, opacity: isHovering ? 0.6 : 0.3 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-          className="rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(251,191,36,0.35) 0%, transparent 70%)",
-          }}
-        />
-      </motion.div>
-
-      {/* ── Center dot ── */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998] will-change-transform"
-        style={{ x: dotX, y: dotY, translateX: "-50%", translateY: "-50%" }}
-      >
-        <motion.div
-          animate={{ width: dotSize, height: dotSize }}
-          transition={{ duration: 0.1 }}
-          className="rounded-full"
-          style={{
-            background: "#fbbf24",
-            boxShadow: "0 0 6px rgba(251,191,36,1), 0 0 14px rgba(251,191,36,0.55)",
-          }}
-        />
+        <AnimatePresence mode="wait">
+          {hoverType === "text" ? (
+            <motion.div
+              key="text"
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={{ scaleY: 1, opacity: 1 }}
+              exit={{ scaleY: 0, opacity: 0 }}
+              className="w-[2px] h-6 bg-primary shadow-[0_0_8px_rgba(251,191,36,0.8)]"
+            />
+          ) : hoverType === "link" ? (
+            <motion.div
+              key="link"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              className="relative flex items-center justify-center"
+            >
+              <motion.div 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                className="w-10 h-10 border border-primary/30 border-dashed rounded-full"
+              />
+              <div className="absolute w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
+            </motion.div>
+          ) : hoverType === "card" ? (
+            <motion.div
+              key="card"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              className="w-20 h-20 bg-primary/10 backdrop-blur-md border border-primary/40 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <motion.span 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="text-[8px] font-black uppercase tracking-widest text-primary"
+              >
+                {cursorText || "VIEW"}
+              </motion.span>
+              <motion.div 
+                animate={{ x: [-100, 100] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="default"
+              initial={{ scale: 0 }}
+              animate={{ scale: isClicking ? 0.6 : 1 }}
+              exit={{ scale: 0 }}
+              className="w-4 h-4 relative flex items-center justify-center"
+            >
+              <div className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)]" />
+              <motion.div 
+                animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.1, 0.3] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute inset-0 border border-primary/40 rounded-full"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </>
   );
