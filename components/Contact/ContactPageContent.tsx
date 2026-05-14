@@ -12,13 +12,13 @@ const contactDetails = [
     href: "mailto:alakhanpal2003@gmail.com",
     color: "#fbbf24",
   },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "8437516789",
-    href: "tel:8437516789",
-    color: "#60a5fa",
-  },
+  // {
+  //   icon: Phone,
+  //   label: "Phone",
+  //   value: "8437516789",
+  //   href: "tel:8437516789",
+  //   color: "#60a5fa",
+  // },
   {
     icon: MapPin,
     label: "Location",

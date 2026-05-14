@@ -7,13 +7,13 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const navLinks = [
-  { name: "Home",       href: "/",           anchor: "hero" },
-  { name: "About",      href: "/about",       anchor: "about" },
-  { name: "Experience", href: "/experience",  anchor: "experience" },
-  { name: "Skills",     href: "/skills",      anchor: "skills" },
-  { name: "Work",       href: "/projects",    anchor: "projects" },
-  { name: "Education",  href: "/education",   anchor: "education" },
-  { name: "Contact",    href: "/contact",     anchor: "contact" },
+  { name: "Home",       href: "/" },
+  { name: "About",      href: "/about" },
+  { name: "Experience", href: "/experience" },
+  { name: "Skills",     href: "/skills" },
+  { name: "Work",       href: "/projects" },
+  { name: "Education",  href: "/education" },
+  { name: "Contact",    href: "/contact" },
 ];
 
 export const Navbar = () => {
@@ -34,33 +34,13 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (!isHome) {
-      const match = navLinks.find((l) => l.href === pathname);
-      if (match) setActive(match.name);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const match = navLinks.find((l) => l.anchor === entry.target.id);
-            if (match) setActive(match.name);
-          }
-        }
-      },
-      { rootMargin: "-40% 0px -60% 0px" }
-    );
-    navLinks.forEach(({ anchor }) => {
-      const el = document.getElementById(anchor);
-      if (el) observer.observe(el);
+    const match = navLinks.find((l) => {
+      if (l.href === "/" && pathname === "/") return true;
+      if (l.href !== "/" && pathname.startsWith(l.href)) return true;
+      return false;
     });
-    return () => observer.disconnect();
-  }, [isHome, pathname]);
-
-  const scrollTo = (anchor: string) => {
-    const el = document.getElementById(anchor);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+    if (match) setActive(match.name);
+  }, [pathname]);
 
   const NavItem = ({
     link,
@@ -72,16 +52,11 @@ export const Navbar = () => {
     className?: string;
   }) => {
     const isActive = active === link.name;
-    const idx = navLinks.findIndex((l) => l.name === link.name) + 1;
 
     return (
       <Link
         href={link.href}
-        onClick={(e) => {
-          if (isHome && link.anchor) {
-            e.preventDefault();
-            scrollTo(link.anchor);
-          }
+        onClick={() => {
           setActive(link.name);
           onClick?.();
         }}
@@ -94,13 +69,6 @@ export const Navbar = () => {
             transition={{ type: "spring", stiffness: 380, damping: 30 }}
           />
         )}
-        <span
-          className={`relative text-[8px] font-black font-mono transition-all duration-300 ${
-            isActive ? "text-primary/50" : "text-white/[0.08] group-hover:text-primary/30"
-          }`}
-        >
-          {String(idx).padStart(2, "0")}
-        </span>
         <span
           className={`relative text-[9px] font-black uppercase tracking-[0.3em] transition-all duration-300 ${
             isActive ? "text-primary" : "text-slate-500 group-hover:text-white"
@@ -145,24 +113,12 @@ export const Navbar = () => {
           >
             {/* Logo */}
             <div className="flex items-center mr-2">
-              {isHome ? (
-                <button
-                  onClick={() => scrollTo("hero")}
-                  className="flex items-center gap-1.5 group"
-                >
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(251,191,36,0.8)] animate-pulse" />
-                  <span className="text-sm font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-primary to-primary group-hover:opacity-80 transition-opacity">
-                    A.L.
-                  </span>
-                </button>
-              ) : (
-                <Link href="/" className="flex items-center gap-1.5 group">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(251,191,36,0.8)] animate-pulse" />
-                  <span className="text-sm font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-primary to-primary group-hover:opacity-80 transition-opacity">
-                    A.L.
-                  </span>
-                </Link>
-              )}
+              <Link href="/" className="flex items-center gap-1.5 group">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(251,191,36,0.8)] animate-pulse" />
+                <span className="text-sm font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-primary to-primary group-hover:opacity-80 transition-opacity">
+                  A.L.
+                </span>
+              </Link>
             </div>
 
             <div className="w-px h-5 bg-white/[0.06] hidden md:block mx-1" />
@@ -212,12 +168,11 @@ export const Navbar = () => {
                 <span className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">Navigation</span>
                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
               </div>
-              {navLinks.map((link, i) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
                   onClick={() => {
-                    if (isHome && link.anchor) scrollTo(link.anchor);
                     setActive(link.name);
                     setIsOpen(false);
                   }}
@@ -227,9 +182,6 @@ export const Navbar = () => {
                       : "text-slate-400 hover:text-white hover:bg-white/[0.03]"
                   }`}
                 >
-                  <span className="text-[7px] font-black font-mono text-primary/40 w-4">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
                   <span className="text-[10px] font-black uppercase tracking-[0.25em]">{link.name}</span>
                   {active === link.name && (
                     <div className="ml-auto w-1 h-1 rounded-full bg-primary" />

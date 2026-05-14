@@ -6,7 +6,6 @@ import { Navbar } from "@/components/Navbar/Navbar";
 import { Projects } from "@/components/Projects/Projects";
 import { Education } from "@/components/Education/Education";
 import { SkillsSection } from "@/components/Skills/SkillsSection";
-import { ScrollTrackerSidebar } from "@/components/Navigation/ScrollTrackerSidebar";
 import { ExperienceSection } from "@/components/ExperienceSection/ExperienceSection";
 import { CustomCursor } from "@/components/Cursor/CustomCursor";
 import { motion } from "framer-motion";
@@ -45,7 +44,6 @@ export default function Home() {
     <main className="relative min-h-screen selection:bg-primary/20">
       <CustomCursor />
       <Navbar />
-      <ScrollTrackerSidebar />
       <Scene />
 
       <div className="relative z-10 pb-20">
